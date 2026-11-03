@@ -99,7 +99,7 @@ export async function fetchOfficialLogo(company: string, domain: string, aliases
   }
   const cands = logoCandidates(page.html, page.finalUrl, [company, ...aliases].join(" "));
   for (const c of cands.slice(0, 6)) {
-    if (!sameSite(c.url, page.finalUrl) && !/cdn|cloudfront|amazonaws|ctfassets|sanity|prismic|webflow|wp-content|imgix|storyblok|framerusercontent/i.test(c.url)) continue;
+    if (!sameSite(c.url, page.finalUrl) && !/cdn|website-files|cloudfront|amazonaws|ctfassets|sanity|prismic|webflow|wp-content|imgix|storyblok|framerusercontent/i.test(c.url)) continue;
     try {
       const r = await fetch(c.url, { headers: { "User-Agent": UA }, redirect: "follow" });
       if (!r.ok) continue;
