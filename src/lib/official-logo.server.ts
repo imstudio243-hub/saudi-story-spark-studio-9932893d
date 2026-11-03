@@ -103,7 +103,7 @@ export async function fetchOfficialLogo(company: string, domain: string, aliases
     try {
       const r = await fetch(c.url, { headers: { "User-Agent": UA }, redirect: "follow" });
       if (!r.ok) continue;
-      let mime = (r.headers.get("content-type") ?? "").split(";")[0].trim();
+      let mime = (r.headers.get("content-type") ?? "").split(";")[0]!.trim();
       const buf = await r.arrayBuffer();
       if (buf.byteLength < 200 || buf.byteLength > 4_000_000) continue;
       if (/\.svg(\?|$)/i.test(c.url) && !mime.includes("svg")) mime = "image/svg+xml";

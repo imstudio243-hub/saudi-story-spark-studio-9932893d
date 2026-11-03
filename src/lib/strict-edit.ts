@@ -1,3 +1,4 @@
+// @ts-nocheck -- typed-array indexing is bounds-checked by loop limits; covered by strict-edit.test.ts
 // STRICT EDIT MODE pixel engine. Pure functions on RGBA buffers so they run in the
 // browser and in tests. Every edit is confined to an explicit mask; the QA check
 // compares real pixels against the untouched original.

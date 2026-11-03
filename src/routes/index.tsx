@@ -81,6 +81,7 @@ function Index() {
             <ShieldCheck className="h-4 w-4" /> سياسة الخصوصية
           </Link>
         </div>
+        <p className="mt-2 text-center text-xs text-muted-foreground">تم تصميم وتطوير هذا التطبيق بواسطة <span className="text-gold">أبو خلف</span></p>
       </footer>
     </div>
   );
