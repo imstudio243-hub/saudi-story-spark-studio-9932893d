@@ -61,6 +61,7 @@ function Shell() {
         <div className="animate-fade">
           <Outlet />
         </div>
+        <p className="mt-10 text-center text-xs text-muted-foreground">تم تصميم وتطوير هذا التطبيق بواسطة <span className="text-gold">أبو خلف</span></p>
       </main>
       <nav className="glass fixed inset-x-3 bottom-3 z-30 flex justify-around rounded-2xl p-2 md:hidden" style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}>
         {items.map((i) => (
