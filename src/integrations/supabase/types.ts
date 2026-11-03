@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_icons: {
+        Row: {
+          app_name: string
+          artwork_url: string
+          bundle_id: string
+          name_ar: string
+          seller: string
+          slug: string
+          store_url: string
+          updated_at: string
+          version: string | null
+        }
+        Insert: {
+          app_name: string
+          artwork_url: string
+          bundle_id: string
+          name_ar: string
+          seller: string
+          slug: string
+          store_url: string
+          updated_at?: string
+          version?: string | null
+        }
+        Update: {
+          app_name?: string
+          artwork_url?: string
+          bundle_id?: string
+          name_ar?: string
+          seller?: string
+          slug?: string
+          store_url?: string
+          updated_at?: string
+          version?: string | null
+        }
+        Relationships: []
+      }
       assets: {
         Row: {
           created_at: string
