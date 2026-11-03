@@ -213,3 +213,29 @@ export async function listModels() {
   const j = await res.json();
   return (j.data as { id: string }[]).map((m) => m.id);
 }
+
+// ---------- Masked image edit (STRICT EDIT MODE) ----------
+export const IMAGE_EDIT_MODEL = "openai/gpt-image-2.5-sunburst";
+
+/** Masked edit: transparent mask pixels are the only editable area. Returns PNG base64. */
+export async function editImageMasked(input: { imageB64: string; maskB64: string; prompt: string }) {
+  const bytes = (b64: string) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  const form = new FormData();
+  form.set("model", IMAGE_EDIT_MODEL);
+  form.set("prompt", input.prompt);
+  form.set("size", "1024x1024");
+  form.set("quality", "medium");
+  form.set("image", new File([bytes(input.imageB64)], "image.png", { type: "image/png" }));
+  form.set("mask", new File([bytes(input.maskB64)], "mask.png", { type: "image/png" }));
+  const k = key();
+  const res = await fetch(`${BASE}/images/edits`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${k}`, "Lovable-API-Key": k, "X-Lovable-AIG-SDK": "fetch" },
+    body: form,
+  });
+  if (!res.ok) return failure(res);
+  const j = (await res.json()) as { data?: { b64_json?: string }[] };
+  const out = j.data?.[0]?.b64_json;
+  if (!out) throw new GatewayError(500, "لم تُرجع خدمة التحرير أي صورة (قد يكون الطلب مرفوضًا).");
+  return out;
+}
