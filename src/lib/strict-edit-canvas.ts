@@ -35,8 +35,8 @@ export async function loadLogo(dataUrl: string) {
   let svg = new TextDecoder().decode(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
   const vb = svg.match(/viewBox\s*=\s*["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
   if (vb) {
-    const scale = 1000 / Math.max(+vb[1], +vb[2]);
-    const w = Math.round(+vb[1] * scale), h = Math.round(+vb[2] * scale);
+    const scale = 1000 / Math.max(+vb[1]!, +vb[2]!);
+    const w = Math.round(+vb[1]! * scale), h = Math.round(+vb[2]! * scale);
     svg = svg.replace(/<svg\b([^>]*)>/i, (_m, attrs: string) => `<svg${attrs.replace(/\s(width|height)\s*=\s*["'][^"']*["']/gi, "")} width="${w}" height="${h}">`);
   }
   return loadImage(`data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`);
