@@ -21,6 +21,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedGeneratorRouteImport } from './routes/_authenticated/generator'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated/help'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
 import { Route as AuthenticatedVoiceRouteImport } from './routes/_authenticated/voice'
 import { Route as AuthenticatedProjectsIdRouteImport } from './routes/_authenticated/projects.$id'
 
@@ -83,6 +84,11 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedStudioRoute = AuthenticatedStudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedVoiceRoute = AuthenticatedVoiceRouteImport.update({
   id: '/voice',
   path: '/voice',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/generator': typeof AuthenticatedGeneratorRoute
   '/help': typeof AuthenticatedHelpRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/studio': typeof AuthenticatedStudioRoute
   '/voice': typeof AuthenticatedVoiceRoute
   '/projects/$id': typeof AuthenticatedProjectsIdRoute
 }
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/generator': typeof AuthenticatedGeneratorRoute
   '/help': typeof AuthenticatedHelpRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/studio': typeof AuthenticatedStudioRoute
   '/voice': typeof AuthenticatedVoiceRoute
   '/projects/$id': typeof AuthenticatedProjectsIdRoute
 }
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/_authenticated/generator': typeof AuthenticatedGeneratorRoute
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/studio': typeof AuthenticatedStudioRoute
   '/_authenticated/voice': typeof AuthenticatedVoiceRoute
   '/_authenticated/projects/$id': typeof AuthenticatedProjectsIdRoute
 }
@@ -155,6 +164,7 @@ export interface FileRouteTypes {
     | '/generator'
     | '/help'
     | '/profile'
+    | '/studio'
     | '/voice'
     | '/projects/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -170,6 +180,7 @@ export interface FileRouteTypes {
     | '/generator'
     | '/help'
     | '/profile'
+    | '/studio'
     | '/voice'
     | '/projects/$id'
   id:
@@ -186,6 +197,7 @@ export interface FileRouteTypes {
     | '/_authenticated/generator'
     | '/_authenticated/help'
     | '/_authenticated/profile'
+    | '/_authenticated/studio'
     | '/_authenticated/voice'
     | '/_authenticated/projects/$id'
   fileRoutesById: FileRoutesById
@@ -284,6 +296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/studio': {
+      id: '/_authenticated/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof AuthenticatedStudioRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/voice': {
       id: '/_authenticated/voice'
       path: '/voice'
@@ -309,6 +328,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedGeneratorRoute: typeof AuthenticatedGeneratorRoute
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedStudioRoute: typeof AuthenticatedStudioRoute
   AuthenticatedVoiceRoute: typeof AuthenticatedVoiceRoute
   AuthenticatedProjectsIdRoute: typeof AuthenticatedProjectsIdRoute
 }
@@ -321,6 +341,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedGeneratorRoute: AuthenticatedGeneratorRoute,
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedStudioRoute: AuthenticatedStudioRoute,
   AuthenticatedVoiceRoute: AuthenticatedVoiceRoute,
   AuthenticatedProjectsIdRoute: AuthenticatedProjectsIdRoute,
 }
