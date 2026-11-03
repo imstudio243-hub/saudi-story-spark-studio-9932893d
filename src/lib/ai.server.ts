@@ -239,3 +239,44 @@ export async function editImageMasked(input: { imageB64: string; maskB64: string
   if (!out) throw new GatewayError(500, "لم تُرجع خدمة التحرير أي صورة (قد يكون الطلب مرفوضًا).");
   return out;
 }
+
+export const IMAGE_MODEL = "openai/gpt-image-2.5-sunburst";
+export type ImageSize = "1024x1024" | "1024x1536" | "1536x1024";
+
+export async function generateImage(input: { prompt: string; size: ImageSize }) {
+  const res = await fetch(`${BASE}/images/generations`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({ model: IMAGE_MODEL, prompt: input.prompt, size: input.size, quality: "medium", n: 1 }),
+  });
+  if (!res.ok) return failure(res);
+  const j = (await res.json()) as { data?: { b64_json?: string }[] };
+  const out = j.data?.[0]?.b64_json;
+  if (!out) throw new GatewayError(500, "لم تُرجع خدمة التوليد أي صورة (قد يكون الطلب مرفوضًا).");
+  return out;
+}
+
+/** Edit whole image(s) by prompt; first image is the base, others are references (e.g. a logo). */
+export async function editImages(input: { images: { b64: string; mime: string }[]; prompt: string; size: ImageSize }) {
+  const form = new FormData();
+  form.set("model", IMAGE_EDIT_MODEL);
+  form.set("prompt", input.prompt);
+  form.set("size", input.size);
+  form.set("quality", "medium");
+  input.images.forEach((im, i) => {
+    const bytes = Uint8Array.from(atob(im.b64), (c) => c.charCodeAt(0));
+    const ext = im.mime.includes("png") ? "png" : im.mime.includes("webp") ? "webp" : "jpg";
+    form.append("image[]", new File([bytes], `image${i}.${ext}`, { type: im.mime }));
+  });
+  const k = key();
+  const res = await fetch(`${BASE}/images/edits`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${k}`, "Lovable-API-Key": k, "X-Lovable-AIG-SDK": "fetch" },
+    body: form,
+  });
+  if (!res.ok) return failure(res);
+  const j = (await res.json()) as { data?: { b64_json?: string }[] };
+  const out = j.data?.[0]?.b64_json;
+  if (!out) throw new GatewayError(500, "لم تُرجع خدمة التحرير أي صورة (قد يكون الطلب مرفوضًا).");
+  return out;
+}

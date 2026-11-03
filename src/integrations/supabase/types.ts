@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_icons: {
+        Row: {
+          app_name: string
+          artwork_url: string
+          bundle_id: string
+          name_ar: string
+          seller: string
+          slug: string
+          store_url: string
+          updated_at: string
+          version: string | null
+        }
+        Insert: {
+          app_name: string
+          artwork_url: string
+          bundle_id: string
+          name_ar: string
+          seller: string
+          slug: string
+          store_url: string
+          updated_at?: string
+          version?: string | null
+        }
+        Update: {
+          app_name?: string
+          artwork_url?: string
+          bundle_id?: string
+          name_ar?: string
+          seller?: string
+          slug?: string
+          store_url?: string
+          updated_at?: string
+          version?: string | null
+        }
+        Relationships: []
+      }
       assets: {
         Row: {
           created_at: string
@@ -150,19 +186,31 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
+          credits: number
           display_name: string | null
           id: string
+          plan: string
+          suspended: boolean
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
+          credits?: number
           display_name?: string | null
           id: string
+          plan?: string
+          suspended?: boolean
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
+          credits?: number
           display_name?: string | null
           id?: string
+          plan?: string
+          suspended?: boolean
         }
         Relationships: []
       }
@@ -194,6 +242,39 @@ export type Database = {
           kind?: string
           name?: string
           status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          admin_reply: string | null
+          body: string
+          created_at: string
+          id: string
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_reply?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          admin_reply?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          status?: string
+          subject?: string
           updated_at?: string
           user_id?: string
         }
@@ -266,6 +347,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      grant_roles_for: {
+        Args: { _confirmed: string; _email: string; _id: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

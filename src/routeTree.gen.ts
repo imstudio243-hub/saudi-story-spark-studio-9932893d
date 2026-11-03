@@ -13,11 +13,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdvertiseRouteImport } from './routes/_authenticated/advertise'
 import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/chat'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedGeneratorRouteImport } from './routes/_authenticated/generator'
+import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated/help'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
 import { Route as AuthenticatedVoiceRouteImport } from './routes/_authenticated/voice'
 import { Route as AuthenticatedProjectsIdRouteImport } from './routes/_authenticated/projects.$id'
 
@@ -38,6 +42,11 @@ const AuthRoute = AuthRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -65,6 +74,21 @@ const AuthenticatedGeneratorRoute = AuthenticatedGeneratorRouteImport.update({
   path: '/generator',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedHelpRoute = AuthenticatedHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedStudioRoute = AuthenticatedStudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedVoiceRoute = AuthenticatedVoiceRouteImport.update({
   id: '/voice',
   path: '/voice',
@@ -80,11 +104,15 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/advertise': typeof AuthenticatedAdvertiseRoute
   '/chat': typeof AuthenticatedChatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/generator': typeof AuthenticatedGeneratorRoute
+  '/help': typeof AuthenticatedHelpRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/studio': typeof AuthenticatedStudioRoute
   '/voice': typeof AuthenticatedVoiceRoute
   '/projects/$id': typeof AuthenticatedProjectsIdRoute
 }
@@ -92,11 +120,15 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/advertise': typeof AuthenticatedAdvertiseRoute
   '/chat': typeof AuthenticatedChatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/generator': typeof AuthenticatedGeneratorRoute
+  '/help': typeof AuthenticatedHelpRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/studio': typeof AuthenticatedStudioRoute
   '/voice': typeof AuthenticatedVoiceRoute
   '/projects/$id': typeof AuthenticatedProjectsIdRoute
 }
@@ -106,11 +138,15 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/advertise': typeof AuthenticatedAdvertiseRoute
   '/_authenticated/chat': typeof AuthenticatedChatRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/generator': typeof AuthenticatedGeneratorRoute
+  '/_authenticated/help': typeof AuthenticatedHelpRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/studio': typeof AuthenticatedStudioRoute
   '/_authenticated/voice': typeof AuthenticatedVoiceRoute
   '/_authenticated/projects/$id': typeof AuthenticatedProjectsIdRoute
 }
@@ -120,11 +156,15 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/privacy'
+    | '/reset-password'
     | '/admin'
     | '/advertise'
     | '/chat'
     | '/dashboard'
     | '/generator'
+    | '/help'
+    | '/profile'
+    | '/studio'
     | '/voice'
     | '/projects/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -132,11 +172,15 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/privacy'
+    | '/reset-password'
     | '/admin'
     | '/advertise'
     | '/chat'
     | '/dashboard'
     | '/generator'
+    | '/help'
+    | '/profile'
+    | '/studio'
     | '/voice'
     | '/projects/$id'
   id:
@@ -145,11 +189,15 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/privacy'
+    | '/reset-password'
     | '/_authenticated/admin'
     | '/_authenticated/advertise'
     | '/_authenticated/chat'
     | '/_authenticated/dashboard'
     | '/_authenticated/generator'
+    | '/_authenticated/help'
+    | '/_authenticated/profile'
+    | '/_authenticated/studio'
     | '/_authenticated/voice'
     | '/_authenticated/projects/$id'
   fileRoutesById: FileRoutesById
@@ -159,6 +207,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AuthRoute: typeof AuthRoute
   PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -189,6 +238,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -226,6 +282,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGeneratorRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/help': {
+      id: '/_authenticated/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof AuthenticatedHelpRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/studio': {
+      id: '/_authenticated/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof AuthenticatedStudioRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/voice': {
       id: '/_authenticated/voice'
       path: '/voice'
@@ -249,6 +326,9 @@ interface AuthenticatedRouteChildren {
   AuthenticatedChatRoute: typeof AuthenticatedChatRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedGeneratorRoute: typeof AuthenticatedGeneratorRoute
+  AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedStudioRoute: typeof AuthenticatedStudioRoute
   AuthenticatedVoiceRoute: typeof AuthenticatedVoiceRoute
   AuthenticatedProjectsIdRoute: typeof AuthenticatedProjectsIdRoute
 }
@@ -259,6 +339,9 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedChatRoute: AuthenticatedChatRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedGeneratorRoute: AuthenticatedGeneratorRoute,
+  AuthenticatedHelpRoute: AuthenticatedHelpRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedStudioRoute: AuthenticatedStudioRoute,
   AuthenticatedVoiceRoute: AuthenticatedVoiceRoute,
   AuthenticatedProjectsIdRoute: AuthenticatedProjectsIdRoute,
 }
@@ -272,6 +355,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthRoute: AuthRoute,
   PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
