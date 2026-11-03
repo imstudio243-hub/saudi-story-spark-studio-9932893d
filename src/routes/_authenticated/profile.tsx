@@ -51,14 +51,14 @@ function Profile() {
   }
 
   async function uploadAvatar(f: File) {
-    if (!f.type.startsWith("image/")) return toast.error("اختر صورة");
+    if (!f.type.startsWith("image/")) { toast.error("اختر صورة"); return; }
     setBusy("avatar");
     const { data: u } = await supabase.auth.getUser();
     const path = `${u.user!.id}/avatar-${Date.now()}.${f.type.split("/")[1] || "png"}`;
     const up = await supabase.storage.from("studio").upload(path, f, { contentType: f.type });
     if (!up.error) await supabase.from("profiles").update({ avatar_url: path }).eq("id", u.user!.id);
     setBusy("");
-    if (up.error) return toast.error("تعذر رفع الصورة");
+    if (up.error) { toast.error("تعذر رفع الصورة"); return; }
     toast.success("تم تحديث الصورة");
     load();
   }
@@ -68,7 +68,7 @@ function Profile() {
     setBusy("pw");
     const { error } = await supabase.auth.updateUser({ password: pw, current_password: cur } as any);
     setBusy("");
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setCur(""); setPw("");
     toast.success("تم تغيير كلمة المرور");
   }

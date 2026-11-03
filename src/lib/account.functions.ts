@@ -116,10 +116,10 @@ export const adminUpdateUser = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await requireAdmin(context.supabase, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const patch: Record<string, unknown> = {};
-    if (data.plan !== undefined) patch.plan = data.plan;
-    if (data.credits !== undefined) patch.credits = data.credits;
-    if (data.suspended !== undefined) patch.suspended = data.suspended;
+    const patch: { plan?: string; credits?: number; suspended?: boolean } = {};
+    if (data.plan !== undefined) patch["plan"] = data.plan;
+    if (data.credits !== undefined) patch["credits"] = data.credits;
+    if (data.suspended !== undefined) patch["suspended"] = data.suspended;
     if (Object.keys(patch).length) {
       const { error } = await supabaseAdmin.from("profiles").update(patch).eq("id", data.userId);
       if (error) throw new Error("تعذر تحديث المستخدم.");
@@ -210,7 +210,7 @@ export const refreshAppIcons = createServerFn({ method: "POST" })
         slug: src.slug, name_ar: src.nameAr, app_name: r.trackName, seller: r.sellerName, store_url: r.trackViewUrl,
         artwork_url: art, bundle_id: r.bundleId, version: r.version ?? null, updated_at: new Date().toISOString(),
       });
-      report.push({ slug: src.slug, ok: !error, reason: error?.message });
+      report.push(error ? { slug: src.slug, ok: false, reason: error.message } : { slug: src.slug, ok: true });
     }
     return report;
   });

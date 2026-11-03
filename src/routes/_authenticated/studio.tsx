@@ -82,7 +82,7 @@ function Studio() {
         if (up.error) throw new Error("تعذر رفع الصورة.");
         await supabase.from("assets").insert({ user_id: u.user!.id, project_id: pid, kind: "image", mime: file.type, size: file.size, source: "uploaded", storage_path: uploadPath });
       }
-      const userMsg: Msg = { role: "user", content: message, upload: uploadPath ?? undefined };
+      const userMsg: Msg = uploadPath ? { role: "user", content: message, upload: uploadPath } : { role: "user", content: message };
       const list = [...msgs, userMsg];
       setMsgs(list); setText(""); setFile(null);
       const r = await studioTurn({
